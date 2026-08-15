@@ -53,4 +53,7 @@ python run_harness.py --rounds 2 --model v2   # 真实 v2 指标评估（val kap
 
 - ✅ 已作为 `research/poetry-poetricity-harness/` 独立子目录
 - ✅ 已作为本 skill 接入 `.agents/skills/`
-- ⏳ 子 Agent 直接作为 DSH `packages/subagent` 插件（TODO：将 `AgentPlugin` 适配为 DSH subagent provider）
+- ✅ 已提供可发布的 TS skill provider：`research/poetry-poetricity-harness/dsh-plugin/`
+  （`@shikunpneg/dsh-poetry-poetricity`，注册 `ctx.skills.registerProvider`）
+- ⏳ 子 Agent 直接作为 DSH `packages/subagent` 原生 provider（将 `AgentPlugin`
+  适配为 `SubagentProvider`——当前通过 skill + subprocess 桥接驱动）

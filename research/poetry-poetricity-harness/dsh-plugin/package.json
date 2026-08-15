@@ -1,0 +1,34 @@
+{
+  "name": "@shikunpneg/dsh-poetry-poetricity",
+  "description": "DSH skill provider for the AI4S Chinese-poetry poeticity harness (Explorer/Generator/Check/Memory sub-agents). Bridges the Python harness as a DSH skill.",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts",
+    "../README.md",
+    "../harness.py",
+    "../run_harness.py"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/dsh-skill": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-skill": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  }
+}

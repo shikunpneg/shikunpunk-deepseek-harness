@@ -27,8 +27,12 @@ python run_harness.py --rounds 2 --model v2   # 真实 v2 指标评估
 
 - 本 harness 是**独立可运行**的研究代码（纯 Python + sklearn）
 - 设计上遵循 DSH 的插件化思想：每个子 Agent 实现 `AgentPlugin` 接口
-- **TODO（方案 3）**：接入 DSH `.agents/skills` 与 `packages/subagent` 插件体系，
-  让本 harness 的子 Agent 作为 DSH skill 被调度
+- **✅ 方案 1**：已作为 `research/poetry-poetricity-harness/` 独立子目录
+- **✅ 方案 3**：已作为 DSH 插件接入（两层）：
+  1. `.agents/skills/dsh-poetry-poetricity/` — 仓库级 skill
+  2. `poetry-poetricity-harness/dsh-plugin/` — 可发布的 TS skill provider
+     (`@shikunpneg/dsh-poetry-poetricity`)，注册 `ctx.skills.registerProvider`，
+     模型可调用 `poetry-poetricity` skill 驱动 Python harness
 
 ### 关联仓库
 

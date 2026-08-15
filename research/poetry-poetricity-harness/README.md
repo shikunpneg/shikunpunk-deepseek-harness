@@ -70,3 +70,20 @@ python run_harness.py --rounds 2 --model v2   # 真实 v2 评估
 ```
 
 实测：v2 冻结指标 kappa=0.9303（val 371），2 轮 VALID。
+
+## 八、DSH 插件接入（方案 3）
+
+`dsh-plugin/` 是本 harness 的 DSH 插件化封装：
+
+- `dsh-plugin/package.json` — `@shikunpneg/dsh-poetry-poetricity`
+- `dsh-plugin/src/index.ts` — TS skill provider（仿 `packages/skill/skill-badge` 模式），
+  注册 `ctx.skills.registerProvider`，模型可调用 `poetry-poetricity` skill
+- `dsh-plugin/SKILL.md` — 模型可读的 skill body（何时用 + 怎么驱动 Python harness）
+
+```bash
+# 构建插件（需要 pnpm install 后）
+cd research/poetry-poetricity-harness/dsh-plugin
+pnpm install && pnpm build
+```
+
+配套仓库级 skill：`.agents/skills/dsh-poetry-poetricity/`（无需构建，直接可用）。
