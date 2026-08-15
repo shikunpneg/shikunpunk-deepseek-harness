@@ -1,0 +1,12 @@
+# agents/openai.yaml — dsh-poetry-poetricity agent config (placeholder)
+
+# TODO(方案 3): 将本 harness 的 4 个子 Agent 接入 DSH subagent 插件体系。
+# 当前以 skill 形式接入；直接作为 DSH subagent provider 需将
+# `harness.py` 中的 `AgentPlugin` 适配为 DSH `packages/subagent` 的
+# Service Definition / provider 接口。
+
+provider: openai
+model: deepseek-v4-flash
+temperature: 0.2
+max_tokens: 4096
+system_prompt_file: ../SKILL.md
