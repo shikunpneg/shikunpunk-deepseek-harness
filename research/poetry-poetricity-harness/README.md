@@ -80,10 +80,36 @@ python run_harness.py --rounds 2 --model v2   # 真实 v2 评估
   注册 `ctx.skills.registerProvider`，模型可调用 `poetry-poetricity` skill
 - `dsh-plugin/SKILL.md` — 模型可读的 skill body（何时用 + 怎么驱动 Python harness）
 
+### 构建插件
+
 ```bash
-# 构建插件（需要 pnpm install 后）
-cd research/poetry-poetricity-harness/dsh-plugin
-pnpm install && pnpm build
+# 假设你已 clone dsh 主仓库并 pnpm install
+cd <dsh-repo>/research/poetry-poetricity-harness/dsh-plugin
+
+# 仅类型检查（不污染主仓库，推荐验证用）
+pnpm exec tsc --noEmit -p tsconfig.json     # 或 pnpm run typecheck
+
+# 构建产物（生成 lib/）
+pnpm exec tsc -p tsconfig.json             # 或 pnpm run build
+pnpm run clean                              # 删除 lib/
 ```
 
-配套仓库级 skill：`.agents/skills/dsh-poetry-poetricity/`（无需构建，直接可用）。
+> **重要**：`tsc -b`（project references build）会污染主仓库 `packages/` 和 `vendor/` 的 `src/`
+> 目录（输出 `*.d.ts/*.js/*.map`）。**避免** `tsc -b`！我们的 tsconfig.json 只用普通 `tsc`
+> 编译本插件，`lib/` 输出到本地 `lib/`。
+
+**已实测**（commit 时确认）：
+- ✅ `tsc --noEmit` 类型检查通过（无错误，无产物）
+- ✅ `tsc -p tsconfig.json` 编译通过（生成 `lib/index.{js,d.ts}` + source maps，2.3KB JS）
+- ✅ `tsconfig.json` 使用 `references` 指向 `packages/skill/skill` 和 `vendor/cordis`，
+  让 tsc 能解析跨包类型但只把本插件写到 `lib/`（不用 `-b` 就不会触发 packages/vendor 的编译）
+
+### 配套仓库级 skill：`.agents/skills/dsh-poetry-poetricity/`
+
+无需构建，直接可用。DSH agent 在仓库根目录会自动通过 skill 机制发现它。
+
+### 集成状态
+
+- ✅ 独立 Python harness
+- ✅ 仓库级 skill
+- ✅ 可发布的 TS skill provider（已通过 `tsc --noEmit` + `tsc` 双验证）
